@@ -1,0 +1,5 @@
+# IDE-Related
+.vscode/
+
+# Build
+build/
