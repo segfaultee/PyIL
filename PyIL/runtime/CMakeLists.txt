@@ -11,8 +11,11 @@ add_library(
 
     il2cpp/utils/debug.cc    
 
+    il2cpp/il2cpp.cc
     il2cpp/assemblies.cc
     il2cpp/state.cc
+
+    entry.cc
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
