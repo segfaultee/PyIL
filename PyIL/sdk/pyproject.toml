@@ -1,0 +1,18 @@
+[project]
+name = "pyil"
+version = "0.1.0"
+description = "Typed Python SDK for interacting with IL2CPP from an injected runtime"
+requires-python = ">=3.12"
+
+[project.optional-dependencies]
+dev = ["black", "isort"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"pyil" = ["*.pyi"]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
