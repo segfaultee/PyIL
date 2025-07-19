@@ -5,6 +5,8 @@ project(PyIL-RT LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(Python3 COMPONENTS Interpreter Development.Module REQUIRED)
+
 add_subdirectory(deps)
 add_library(
     ${PROJECT_NAME} SHARED
@@ -15,11 +17,19 @@ add_library(
     il2cpp/assemblies.cc
     il2cpp/state.cc
 
+    python/python.cc
+
     entry.cc
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(
+    ${PROJECT_NAME} PRIVATE 
+    ${CMAKE_CURRENT_SOURCE_DIR} 
+    ${Python3_INCLUDE_DIRS}
+)
+
 target_link_libraries(
     ${PROJECT_NAME} PRIVATE
+    ${Python3_LIBRARIES}
     minhook
 )

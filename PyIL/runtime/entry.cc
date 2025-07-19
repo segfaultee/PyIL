@@ -4,6 +4,7 @@
 #include <windows.h>
 
 #include "il2cpp/il2cpp.hh"
+#include "python/python.hh"
 
 #include "console.hh"
 
@@ -12,6 +13,9 @@ void entry()
     pyil::console::init();
 
     if (!il2cpp::init())
+        return;
+
+    if (!python::init())
         return;
 }
 
