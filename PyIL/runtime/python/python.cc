@@ -13,9 +13,19 @@ namespace python
 {
     bool init()
     {
-        PyImport_AppendInittab("pyil", sdk::module_init);
+        if (PyImport_AppendInittab("pyil", sdk::module_init) == -1)
+        {
+            PyErr_Print();
+            return false;
+        }
+
         Py_Initialize();
-        PyRun_SimpleString("import pyil;print(pyil.__dir__())");
+        
         return true;
+    }
+
+    void deinit()
+    {
+        Py_Initialize();
     }
 }

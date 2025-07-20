@@ -3,4 +3,5 @@
 namespace python
 {
     bool init();
+    void deinit();
 }

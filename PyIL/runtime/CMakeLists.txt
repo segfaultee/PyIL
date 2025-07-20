@@ -17,6 +17,7 @@ add_library(
     il2cpp/assemblies.cc
     il2cpp/state.cc
 
+    python/sdk/sdk.cc
     python/python.cc
 
     entry.cc

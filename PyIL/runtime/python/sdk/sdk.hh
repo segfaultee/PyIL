@@ -16,9 +16,5 @@ namespace python::sdk
         _sdk_meths
     };
 
-    PyObject* module_init(void) 
-    {
-        PyObject* m = PyModule_Create(&_sdk_mod);
-        return m;
-    }
+    PyObject* module_init(void);
 }
