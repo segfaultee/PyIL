@@ -7,7 +7,7 @@
 
 namespace pyil::console
 {
-    inline HANDLE out_handle = nullptr;
+    inline HANDLE out_handle = INVALID_HANDLE_VALUE;
 
     inline void init()
     {
