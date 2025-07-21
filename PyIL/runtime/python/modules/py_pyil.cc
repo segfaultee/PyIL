@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "il2cpp/il2cpp.hh"
-#include "python/mod_inject.hh"
 
 #include "py_pyil.hh"
 

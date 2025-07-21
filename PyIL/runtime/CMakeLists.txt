@@ -19,7 +19,6 @@ add_library(
     python/modules/py_il2cpp.cc
     python/modules/py_pyil.cc
     
-    python/mod_inject.cc
     python/python.cc
 
     entry.cc
