@@ -1,9 +1,11 @@
 #include <iostream>
 #include <format>
+#include <filesystem>
 
 #include <Python.h>
 
 #include "il2cpp/il2cpp.hh"
+#include "utils/path.hh"
 
 #include "python.hh"
 
@@ -49,6 +51,8 @@ namespace python
 
     bool init()
     {
+        std::filesystem::path cwd = utils::get_cwd();
+
         for (const auto& [name, init] : modules)
         {
             if (PyImport_AppendInittab(name.c_str(), init) == -1) 
@@ -60,6 +64,11 @@ namespace python
 
         Py_Initialize();
         inject_module_into("il2cpp", "pyil");
+        std::cout << cwd << '\n';
+        for (const auto& entry : std::filesystem::recursive_directory_iterator("pyil/mods"))
+        {
+            std::cout << entry.path() << std::endl;
+        }
         
         return true;
     }
