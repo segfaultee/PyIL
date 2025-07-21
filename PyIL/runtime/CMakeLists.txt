@@ -7,7 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Python3 COMPONENTS Interpreter Development.Module REQUIRED)
 
-add_subdirectory(deps)
 add_library(
     ${PROJECT_NAME} SHARED
 
