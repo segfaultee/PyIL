@@ -1,31 +1,34 @@
 #include <iostream>
 #include <format>
 
-#include <Windows.h>
-
 #include <Python.h>
 
-#include "sdk/sdk.hh"
+#include "il2cpp/il2cpp.hh"
 
+#include "mod_inject.hh"
 #include "python.hh"
 
 namespace python
 {
     bool init()
     {
-        if (PyImport_AppendInittab("pyil", sdk::module_init) == -1)
+        for (const auto& [name, init] : modules)
         {
-            PyErr_Print();
-            return false;
+            if (PyImport_AppendInittab(name.c_str(), init) == -1) 
+            {
+                std::cout << std::format("Failed to register {} module in inittab\n", name);
+                return false;
+            }
         }
 
         Py_Initialize();
+        inject_module_into("il2cpp", "pyil");
         
         return true;
     }
 
     void deinit()
     {
-        Py_Initialize();
+        Py_Finalize();
     }
 }

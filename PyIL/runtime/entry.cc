@@ -15,6 +15,9 @@ void entry()
     if (!il2cpp::init())
         return;
 
+    if (il2cpp::_assemblies.find("Assembly-CSharp") != il2cpp::_assemblies.end())
+        il2cpp::select_assembly("Assembly-CSharp");
+
     if (!python::init())
         return;
 }
