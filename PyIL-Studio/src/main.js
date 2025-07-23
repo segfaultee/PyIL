@@ -75,10 +75,7 @@ ipcMain.handle("select-workspace", async () => {
 ipcMain.handle("init-editor", async () => {
     if (!mainWindow) return;
 
-    // Load the editor.html in the same window or new window
-    // Here, load in the same window for simplicity:
     await mainWindow.loadFile(path.join(app.getAppPath(), "editor.html"));
 
-    // We can send a signal to renderer to initialize the editor
     mainWindow.webContents.send("init-editor");
 });
