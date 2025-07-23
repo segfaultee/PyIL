@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PyIL - Mod Loader</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+        }
+        
+        header {
+            background: #1f1f1f;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #2a2a2a;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #ffde39;
+        }
+        
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: #ffe24f;
+        }
+        
+        main {
+            flex: 1;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem;
+            background: linear-gradient(to bottom right, #1a1a1a, #121212);
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #ffde39;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #c0c0c0;
+        }
+        
+        .cta-button {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: #ffde39;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #000;
+            transition: background 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            background: #ffdf42;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: #1f1f1f;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav a {
+                margin: 1rem 0 0 0;
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">PyIL</div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Docs</a>
+            <a href="#">GitHub</a>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <h1>Inject. Modify. Load.</h1>
+            <button class="cta-button">Select Workspace</button>
+        </section>
+    </main>
+    
+    <footer>
+        &copy; 2025 PyIL. All rights reserved.
+    </footer>
+    
+    <script>
+        document.querySelector('.cta-button').addEventListener('click', () => {
+            window.electronAPI.selectWorkspace().then(result => {
+                if (!result.canceled) {
+                    window.electronAPI.initEditor();
+                    console.log('Selected folder:', result);
+                } else {
+                    console.log('Folder selection was canceled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
