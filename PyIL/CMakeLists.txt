@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10.0)
 
-add_subdirectory(deps/ILight)
+project(PyIL)
 
+add_subdirectory(deps)
 add_subdirectory(inject)
 add_subdirectory(runtime)
