@@ -9,13 +9,7 @@ find_package(Python3 COMPONENTS Interpreter Development.Module REQUIRED)
 
 add_library(
     ${PROJECT_NAME} SHARED
-
-    il2cpp/utils/debug.cc    
-
-    il2cpp/il2cpp.cc
-    il2cpp/assemblies.cc
-    il2cpp/state.cc
-
+    
     python/modules/py_il2cpp.cc
     python/modules/py_pyil.cc
 
@@ -36,4 +30,5 @@ target_link_libraries(
     ${PROJECT_NAME} PRIVATE
     ${Python3_LIBRARIES}
     minhook
+    ILight
 )
