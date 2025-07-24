@@ -64,7 +64,7 @@ function initEditor() {
     });
 }
 
-window.electronAPI.onInitEditor(() => {
+window.editorAPI.onInitEditor(() => {
     const editor = initEditor();
     sendRequest("initialize", {processId: null, rootUri: null, capabilities: {}, workspaceFolders: null,}).then(() => {
         window.LSPAPI.sendLSPMessage({ jsonrpc: "2.0", method: "initialized", params: {} }); // send initialized notifcation to LS

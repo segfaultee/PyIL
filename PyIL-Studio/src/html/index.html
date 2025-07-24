@@ -138,9 +138,9 @@
     
     <script>
         document.querySelector('.cta-button').addEventListener('click', () => {
-            window.electronAPI.selectWorkspace().then(result => {
+            window.workspaceAPI.selectWorkspace().then(result => {
                 if (!result.canceled)
-                    window.electronAPI.initEditor();
+                    window.editorAPI.initEditor();
             });
         });
     </script>
