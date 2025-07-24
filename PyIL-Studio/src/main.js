@@ -4,6 +4,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const { listenOnLSPServer } = require("./lsp_listener.js");
 
 let window;
+let workspace = "";
 
 app.whenReady().then(() => {
     window = new BrowserWindow({
@@ -26,8 +27,11 @@ ipcMain.handle("select-workspace", async () => {
     const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
     if (result.canceled) 
         return { canceled: true };
-    return { canceled: false, path: result.filePaths[0] };
+    workspace = result.filePaths[0];
+    return { canceled: false, path: workspace };
 });
+
+ipcMain.handle("get-workspace", () => { return workspace; })
 
 ipcMain.handle("init-editor", async () => {
     await window.loadFile(path.join(app.getAppPath(), "editor.html"));

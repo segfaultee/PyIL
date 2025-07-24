@@ -3,7 +3,6 @@ const { contextBridge, ipcRenderer } = require("electron");
 contextBridge.exposeInMainWorld("workspaceAPI", {
     selectWorkspace: () => ipcRenderer.invoke("select-workspace"),
     getWorkspace: () => ipcRenderer.invoke("get-workspace"),
-    onSelectWorkspace: (callback) => ipcRenderer.on("select-workspace", callback),
 });
 
 contextBridge.exposeInMainWorld("editorAPI", {

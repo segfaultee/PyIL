@@ -1,5 +1,6 @@
 import * as monaco from "monaco-editor";
 
+let workspace = "";
 let messageId = 0;
 const requests = new Map();
     
@@ -21,7 +22,7 @@ async function provideCompletionItems(model, position) {
         method: "textDocument/didChange",
         params: {
             textDocument: {
-                uri: `file:///untitled.py`,
+                uri: `file:///${workspace}/mods/untitled.py`,
                 version: 1,
             },
             contentChanges: [{ text }],
@@ -29,7 +30,7 @@ async function provideCompletionItems(model, position) {
     });
 
     const response = await sendRequest("textDocument/completion", {
-        textDocument: { uri: `file:///untitled.py` },
+        textDocument: { uri: `file:///${workspace}/mods/untitled.py` },
         position: { line, character },
     });
 
@@ -64,8 +65,10 @@ function initEditor() {
     });
 }
 
-window.editorAPI.onInitEditor(() => {
+window.editorAPI.onInitEditor(async () => {
+    workspace = await window.workspaceAPI.getWorkspace();
     const editor = initEditor();
+    
     sendRequest("initialize", {processId: null, rootUri: null, capabilities: {}, workspaceFolders: null,}).then(() => {
         window.LangServerAPI.sendLSPMessage({ jsonrpc: "2.0", method: "initialized", params: {} }); // send initialized notifcation to LS
         
@@ -75,7 +78,7 @@ window.editorAPI.onInitEditor(() => {
             method: "textDocument/didOpen",
             params: {
                 textDocument: {
-                    uri: `file:///untitled.py`,
+                    uri: `file:///${workspace}/mods/untitled.py`,
                     languageId: "python",
                     version: 1,
                     text,
