@@ -7,7 +7,7 @@ function sendRequest(method, params) {
     return new Promise((resolve) => {
         const id = ++messageId;
         requests.set(id, { resolve });
-        window.LSPAPI.sendLSPMessage({ jsonrpc: "2.0", id, method, params });
+        window.LangServerAPI.sendLSPMessage({ jsonrpc: "2.0", id, method, params });
     });
 }
 
@@ -16,7 +16,7 @@ async function provideCompletionItems(model, position) {
     const line = position.lineNumber - 1;
     const character = position.column - 1;
 
-    window.LSPAPI.sendLSPMessage({
+    window.LangServerAPI.sendLSPMessage({
         jsonrpc: "2.0",
         method: "textDocument/didChange",
         params: {
@@ -67,10 +67,10 @@ function initEditor() {
 window.editorAPI.onInitEditor(() => {
     const editor = initEditor();
     sendRequest("initialize", {processId: null, rootUri: null, capabilities: {}, workspaceFolders: null,}).then(() => {
-        window.LSPAPI.sendLSPMessage({ jsonrpc: "2.0", method: "initialized", params: {} }); // send initialized notifcation to LS
+        window.LangServerAPI.sendLSPMessage({ jsonrpc: "2.0", method: "initialized", params: {} }); // send initialized notifcation to LS
         
         const text = editor.getValue();
-        window.LSPAPI.sendLSPMessage({
+        window.LangServerAPI.sendLSPMessage({
             jsonrpc: "2.0",
             method: "textDocument/didOpen",
             params: {
@@ -87,7 +87,7 @@ window.editorAPI.onInitEditor(() => {
     monaco.languages.registerCompletionItemProvider("python", {triggerCharacters: [".", " "], provideCompletionItems});
 });
 
-window.LSPAPI.onLSPMessage((message) => {
+window.LangServerAPI.onLSPMessage((message) => {
     if (message.id && requests.has(message.id)) {
         const { resolve } = requests.get(message.id);
         resolve(message);

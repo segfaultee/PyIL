@@ -11,7 +11,7 @@ contextBridge.exposeInMainWorld("editorAPI", {
     onInitEditor: (callback) => ipcRenderer.on("init-editor", callback),
 });
 
-contextBridge.exposeInMainWorld("LSPAPI", {
+contextBridge.exposeInMainWorld("LangServerAPI", {
     sendLSPMessage: (msg) => ipcRenderer.send("lsp-message", msg),
     onLSPMessage: (callback) => ipcRenderer.on("lsp-message", (_, message) => callback(message)),
 });
