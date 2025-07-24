@@ -13,7 +13,7 @@
         }
         
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: "Segoe UI", sans-serif;
             background: #0f0f0f;
             color: #ffffff;
         }
@@ -70,7 +70,6 @@
         }
         
         .cta-button {
-            margin-top: 2rem;
             padding: 1rem 2rem;
             background: #ffde39;
             border: none;
@@ -112,6 +111,11 @@
             .hero p {
                 font-size: 1rem;
             }
+            
+            .button-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
@@ -128,7 +132,10 @@
     <main>
         <section class="hero">
             <h1>Inject. Modify. Load.</h1>
-            <button class="cta-button">Select Workspace</button>
+            <div class="button-container" style="margin-top: 2rem; display: inline-flex; gap: 1rem;">
+                <button class="cta-button" id="select-workspace-btn">Select Workspace</button>
+                <button class="cta-button" id="modding-btn">Select Game</button>
+            </div>
         </section>
     </main>
     
@@ -137,11 +144,19 @@
     </footer>
     
     <script>
-        document.querySelector('.cta-button').addEventListener('click', () => {
+        document.getElementById("select-workspace-btn").addEventListener("click", () => {
             window.workspaceAPI.selectWorkspace().then(result => {
-                if (!result.canceled)
-                    window.editorAPI.initEditor();
-            });
+                if (result.canceled)
+                    return;
+                window.editorAPI.initEditor();
+            }).catch(err => console.error("Workspace selection failed:", err));
+        });
+
+        document.getElementById("modding-btn").addEventListener("click", async () => {
+            window.workspaceAPI.selectWorkspace().then(result => {
+                if (result.canceled)
+                    return;
+            }).catch(err => console.error("Workspace selection failed:", err));
         });
     </script>
 </body>
