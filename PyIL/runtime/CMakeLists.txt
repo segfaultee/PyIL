@@ -5,30 +5,21 @@ project(PyIL-RT LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Python3 COMPONENTS Interpreter Development.Module REQUIRED)
-
 add_library(
     ${PROJECT_NAME} SHARED
-    
-    python/modules/py_il2cpp.cc
-    python/modules/py_pyil.cc
-
-    python/python.cc
-    
+        
     utils/path.cc
-
     entry.cc
 )
 
 target_include_directories(
     ${PROJECT_NAME} PRIVATE 
     ${CMAKE_CURRENT_SOURCE_DIR} 
-    ${Python3_INCLUDE_DIRS}
 )
 
 target_link_libraries(
     ${PROJECT_NAME} PRIVATE
-    ${Python3_LIBRARIES}
     minhook
     ILight
+    PyLight
 )

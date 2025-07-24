@@ -3,8 +3,8 @@
 
 #include <windows.h>
 
-#include "il2cpp/il2cpp.hh"
-#include "python/python.hh"
+#include <pylight/python.hh>
+#include <il2cpp/il2cpp.hh>
 
 #include "console.hh"
 

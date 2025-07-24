@@ -1,3 +1,6 @@
 [submodule "PyIL/deps/ILight"]
 	path = PyIL/deps/ILight
 	url = https://github.com/segfaultee/ILight.git
+[submodule "PyIL/deps/PyLight"]
+	path = PyIL/deps/PyLight
+	url = https://github.com/segfaultee/PyLight
