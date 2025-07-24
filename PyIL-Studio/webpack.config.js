@@ -29,6 +29,7 @@ module.exports = {
         new MonacoWebpackPlugin({ languages: ["python"] }),
         new CopyWebpackPlugin({ patterns: [
             { from: "package.json", to: "package.json" },
+            { from: "src/lsp_listener.js", to: "src/lsp_listener.js" },
             { from: "src/main.js", to: "src/main.js" },
             { from: "src/preload.js", to: "src/preload.js" },
             { from: "src/renderer.js", to: "src/renderer.js" },

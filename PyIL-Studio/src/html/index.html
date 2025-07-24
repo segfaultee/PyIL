@@ -139,12 +139,8 @@
     <script>
         document.querySelector('.cta-button').addEventListener('click', () => {
             window.electronAPI.selectWorkspace().then(result => {
-                if (!result.canceled) {
+                if (!result.canceled)
                     window.electronAPI.initEditor();
-                    console.log('Selected folder:', result);
-                } else {
-                    console.log('Folder selection was canceled');
-                }
             });
         });
     </script>
