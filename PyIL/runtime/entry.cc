@@ -1,4 +1,5 @@
 #include <iostream>
+#include <filesystem>
 #include <format>
 
 #include <windows.h>
@@ -6,10 +7,15 @@
 #include <pylight/python.hh>
 #include <il2cpp/il2cpp.hh>
 
+#include "utils/path.hh"
+
 #include "console.hh"
 
 void entry()
 {
+    std::filesystem::path cwd = utils::get_cwd();
+    std::filesystem::path mod_dir = cwd / "pyil" / "mods";
+
     pyil::console::init();
 
     if (!il2cpp::init())
@@ -20,6 +26,13 @@ void entry()
 
     if (!python::init())
         return;
+
+    python::Result<void*> res = python::insert_path(mod_dir.string());
+    if (res.is_error())
+    {
+        std::cout << "[PYTHON] ERROR: " << res.error_message();
+        return;
+    }
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID)
