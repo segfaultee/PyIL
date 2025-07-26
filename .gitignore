@@ -7,6 +7,7 @@ dist/
 
 # Py
 *.egg-info/
+__pycache__/
 
 # JS
 node_modules/
