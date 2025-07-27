@@ -5,3 +5,13 @@ def select_assembly(name: str) -> None:
     Args:
         name (str): The name of the assembly to select (e.g "Assembly-CSharp").
     """
+
+def get_assembly() -> str | None:
+    """
+    Returns the selected target assembly.
+    """
+
+def get_assemblies() -> list[str]:
+    """
+    Returns a list of all loaded assemblies.
+    """

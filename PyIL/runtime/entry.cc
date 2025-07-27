@@ -7,6 +7,7 @@
 #include <pylight/python.hh>
 #include <il2cpp/il2cpp.hh>
 
+#include "sdk/il2cpp.hh"
 #include "utils/path.hh"
 
 #include "console.hh"
@@ -15,7 +16,7 @@ void entry()
 {
     std::filesystem::path mod_dir = utils::get_cwd() / "pyil" / "mods";
 
-    pyil::console::init();
+    console::init();
 
     if (!il2cpp::init())
         return;
@@ -32,26 +33,35 @@ void entry()
         return;
     }
 
-    auto pyil_module = python::Module::from_dotted("pyil");
-    auto bootstrap_module = python::Module::from_path("pyil.bootstrap");
-    auto entry_module = python::Module::from_dotted("mod_entry");
-
-    if (pyil_module.is_error()) { std::cout << "[PYTHON] ERROR: " << pyil_module.error_message(); return; }
-    if (bootstrap_module.is_error()) { std::cout << "[PYTHON] ERROR: " << bootstrap_module.error_message(); return; }
-    if (entry_module.is_error()) { std::cout << "[PYTHON] ERROR: " << entry_module.error_message(); return; }
+    auto pyil_module_res = python::Module::from_dotted("pyil");
+    auto bootstrap_module_res = python::Module::from_dotted("pyil.bootstrap");
+    auto il2cpp_module_res = python::Module::from_object(sdk::pyil2cpp::py_init());
     
-    auto args = python::pack_tuple(mod_dir.string());
-    if (args == nullptr)
+    if (pyil_module_res.is_error()) { std::cout << "[PYTHON] ERROR: " << pyil_module_res.error_message(); return; }
+    if (bootstrap_module_res.is_error()) { std::cout << "[PYTHON] ERROR: " << bootstrap_module_res.error_message(); return; }
+    if (il2cpp_module_res.is_error()) { std::cout << "[PYTHON] ERROR: " << il2cpp_module_res.error_message(); return; }
+
+    auto pyil_module = pyil_module_res.get();
+    auto bootstrap_module = bootstrap_module_res.get();
+    auto il2cpp_module = il2cpp_module_res.get();
+
+    il2cpp_module.add_object("__name__", PyUnicode_FromString("pyil.il2cpp"));
+    il2cpp_module.add_to_sys_modules("pyil.il2cpp");
+
+    if (auto res = pyil_module.add_object("il2cpp", il2cpp_module.get()); res.is_error())
     {
-        std::cout << "[PYTHON] ERROR: Failed to pack tuple for set_cwd call\n";
+        std::cout << "[PYTHON] ERROR: " << res.error_message(); 
+        return;
+    }
+    
+    if (auto res = bootstrap_module.call("_set_cwd", python::pack_tuple(mod_dir.string())); res.is_error())
+    {
+        std::cout << "[PYTHON] ERROR: " << res.error_message();
         return;
     }
 
-    if (bootstrap_module.get().call("_set_cwd", args).is_error())
-    {
-        std::cout << "[PYTHON] ERROR: _set_cwd failed\n";
-        return;
-    }
+    auto entry_module = python::Module::from_dotted("mod_entry");
+    if (entry_module.is_error()) { std::cout << "[PYTHON] ERROR: " << entry_module.error_message(); return; }
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID)

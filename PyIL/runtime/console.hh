@@ -5,7 +5,7 @@
 
 #include <windows.h>
 
-namespace pyil::console
+namespace console
 {
     inline HANDLE out_handle = INVALID_HANDLE_VALUE;
 

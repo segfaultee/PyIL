@@ -7,7 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(
     ${PROJECT_NAME} SHARED
-        
+    
+    sdk/il2cpp.cc
+
     utils/path.cc
     entry.cc
 )
