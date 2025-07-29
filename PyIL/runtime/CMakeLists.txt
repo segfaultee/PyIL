@@ -9,8 +9,10 @@ add_library(
     ${PROJECT_NAME} SHARED
     
     sdk/il2cpp.cc
-
+    
     utils/path.cc
+
+    console.cc
     entry.cc
 )
 
