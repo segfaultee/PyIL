@@ -3,6 +3,9 @@ name = "pyil"
 version = "0.1.0"
 description = "Typed Python SDK for interacting with IL2CPP from an injected runtime"
 requires-python = ">=3.12"
+dependencies = [
+    "rich"
+]
 
 [project.optional-dependencies]
 dev = ["black", "isort"]
