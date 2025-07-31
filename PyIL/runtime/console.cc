@@ -17,10 +17,7 @@ namespace console
         _alloced = false;
 
         if (!AllocConsole())
-        {
-            // TODO: Write error to file
             return false;
-        }
 
         SetConsoleTitleA("PyIL");
         

@@ -1,5 +1,6 @@
 #include <format>
 
+#include <pylight/python.hh>
 #include <il2cpp/il2cpp.hh>
 
 #include "il2cpp.hh"
@@ -42,28 +43,29 @@ namespace sdk::pyil2cpp
 
     PyObject* py_get_assemblies(PyObject* self, PyObject* _)
     {
-        PyObject* assemblies = PyList_New(il2cpp::_assemblies.size());
-        if (assemblies == nullptr)
+        auto assemblies_res = python::List::create(il2cpp::_assemblies.size());
+        if (assemblies_res.is_error())
             return nullptr;
 
+        python::List assemblies = assemblies_res.get();
         int i = 0;
         for (auto&[key, _] : il2cpp::_assemblies)
         {
             auto py_str = PyUnicode_FromString(key.c_str());
             if (py_str == nullptr)
             {
-                Py_DECREF(assemblies);
+                assemblies.decref();
                 return nullptr;
             }
-            
-            if (PyList_SetItem(assemblies, i++, py_str) != 0) // PyList_SetItem steals a reference on both success and failure.
+
+            if (assemblies.append(py_str).is_error())
             {
-                Py_DECREF(assemblies);
+                assemblies.decref();
                 return nullptr;
-            }
+            }   
         }
 
-        return assemblies;
+        return assemblies.get();
     }
 
     PyObject* py_init()

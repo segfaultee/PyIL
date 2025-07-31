@@ -93,12 +93,18 @@ void entry()
     console::alloc();
     
     if (!init_il2cpp() || !init_python())
+    {
+        pyil_exit(0);
         return;
+    }
 
     auto [pyil_module, bootstrap_module, il2cpp_module] = init_python_modules();
 
     if (!init_environment(bootstrap_module))
+    {
+        pyil_exit(0);
         return;
+    }
 
     auto entry_module = python::Module::from_dotted("mod_entry");
     if (entry_module.is_error()) 
